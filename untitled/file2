@@ -1,0 +1,29 @@
+import numpy as np
+from matplotlib import pyplot as plt
+import cv2
+
+if(__name__ == '__main__'):
+
+    img_Bgd = cv2.imread("C:/Users/Champ/Desktop/0002_20160805_075425_03152300.jpg")
+    plt.subplot(331), plt.imshow(img_Bgd, cmap='gray')
+
+    img_Bgd = cv2.cvtColor(img_Bgd, cv2.COLOR_BGR2GRAY)
+    plt.subplot(332), plt.imshow(img_Bgd, cmap='gray')
+
+    img_Bgd_Gray = cv2.imread("C:/Users/Champ/Desktop/0002_20160805_075425_03152300.jpg", 0)
+    plt.subplot(333), plt.imshow(img_Bgd_Gray, cmap='gray')
+
+    cv2.equalizeHist(img_Bgd)
+    img_Bgd = cv2.Canny(img_Bgd, 100, 200)
+    plt.subplot(334), plt.imshow(img_Bgd, cmap='gray')
+
+    _, contours_Bgd, hierarchy = cv2.findContours(img_Bgd_Gray,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    NumBase = contours_Bgd[0][0][0][0]
+    print "NumBase: ", NumBase
+
+    # plt.show()
+
+    cv2.drawContours(img_Bgd, contours_Bgd, -1, (0, 255, 0), 3)
+    cv2.imshow("contours", img_Bgd)
+    0xFF & cv2.waitKey()
+    cv2.destroyAllWindows()
